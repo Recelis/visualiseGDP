@@ -1,6 +1,6 @@
 
 function getGDP(raw) {
-  var gdpForGraph = raw[1]/100;
+  var gdpForGraph = raw[1]/40;
   return gdpForGraph;
 }
 
@@ -11,32 +11,32 @@ function getDates(raw) {
 function createChart(error, data) {
   if (error) throw error;
   var gdp = data.data.map(getGDP);
+  console.log(gdp.map((d)=>d*40));
   var dates = data.data.map(getDates);
   var chart = d3.select("#graph")
     .append('svg')
-    .attr('height', 2000)
-    .attr('width', 2000)
+    .attr('height', 500)
+    .attr('width', 50000)
   var bars = chart.selectAll('rect')
     .data(gdp)
     .enter().append('rect')
     .attr('class', "chart")
-    .attr('width', 1)
+    .attr('width', 3)
     .attr('height', (gdp) => {
       return gdp;
     })
     .attr('x', (d, i) => {
-      return 1 * i;
+      return 3 * i;
     })
     .attr('fill', 'grey')
     .attr('y', (d, i) => {
-      return 200 - d
+      return 500 - d
     })
     .on('mouseover', (d,i)=>{
       tooltip.style("visibility", "visible");
       // console.log(d*100);
-      tooltip.text(d*100);
-      console.log(i);
-      tooltip.style('padding-right', (d,i)=>i);
+      tooltip.text("$" + parseFloat(Math.round(d*40*100)/100).toFixed(1) + "B USD " + dates[i]); // may be rounded incorrectly
+      // console.log(i);
     })
     .on('mouseout', ()=>tooltip.style("visibility", "hidden"));
 }
@@ -46,6 +46,8 @@ var tooltip = d3.select("#graph")
   .style("position", "absolute")
   .style("z-index", "10")
   .style("visibility","hidden")
+  .style("background-color", "red")
+  .style('padding-right', 100);
 
 
 
