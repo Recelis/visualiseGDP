@@ -12,7 +12,7 @@ function createChart(error, data) {
   if (error) throw error;
   var gdp = data.data.map(getGDP);
   var dates = data.data.map(getDates);
-  var chart = d3.select("body")
+  var chart = d3.select("#graph")
     .append('svg')
     .attr('height', 2000)
     .attr('width', 2000)
@@ -31,14 +31,25 @@ function createChart(error, data) {
     .attr('y', (d, i) => {
       return 200 - d
     })
+    .on('mouseover', (d,i)=>{
+      tooltip.style("visibility", "visible");
+      // console.log(d*100);
+      tooltip.text(d*100);
+      console.log(i);
+      tooltip.style('padding-right', (d,i)=>i);
+    })
+    .on('mouseout', ()=>tooltip.style("visibility", "hidden"));
 }
+
+var tooltip = d3.select("#graph")
+  .append("div")
+  .style("position", "absolute")
+  .style("z-index", "10")
+  .style("visibility","hidden")
+
 
 
 d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json", createChart);
-
-// need to get max height and/or set a max height
-
-// need to be able to read json data in and make it not look bad
 
 // need to set horizontal and vertical axis
 
