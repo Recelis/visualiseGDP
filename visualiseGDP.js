@@ -1,39 +1,44 @@
-var data = [4, 7, 12, 23, 42, 20, 150];
-var gdp = [];
 
+function getGDP(raw) {
+  var gdpForGraph = raw[1]/100;
+  return gdpForGraph;
+}
 
-var chart = d3.select("body")
-  .append('svg')
-  .attr('height',200)
-  .attr('width',200)
-var bars = chart.selectAll('rect')  
-  .data(data)
-  .enter().append('rect')
-  .attr('class', "chart")
-  .attr('width', 2)
-  .attr('height', (data)=>{
-    return data;
-  })
-  .attr('x', (d, i) => {
-    console.log(i);
-    return 2 * i;
-  })
-  .attr('fill', 'grey')
-  .attr('y', (d,i)=>{
-    return 200-d
-  })
-  
+function getDates(raw) {
+  return raw[0];
+}
 
-  console.log(chart);
-// var bars = chart.selectAll('div')  
-// chart.attr('x', (d,i)=>{
-//   return 30*i;
-// })
-
-d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json", (error, data) => {
+function createChart(error, data) {
   if (error) throw error;
-  gdp = data.data;
-  console.log(gdp); 
-});
+  var gdp = data.data.map(getGDP);
+  var dates = data.data.map(getDates);
+  var chart = d3.select("body")
+    .append('svg')
+    .attr('height', 2000)
+    .attr('width', 2000)
+  var bars = chart.selectAll('rect')
+    .data(gdp)
+    .enter().append('rect')
+    .attr('class', "chart")
+    .attr('width', 1)
+    .attr('height', (gdp) => {
+      return gdp;
+    })
+    .attr('x', (d, i) => {
+      return 1 * i;
+    })
+    .attr('fill', 'grey')
+    .attr('y', (d, i) => {
+      return 200 - d
+    })
+}
 
+
+d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json", createChart);
+
+// need to get max height and/or set a max height
+
+// need to be able to read json data in and make it not look bad
+
+// need to set horizontal and vertical axis
 
