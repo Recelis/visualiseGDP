@@ -50,12 +50,8 @@ function createChart(error, data) {
 
 var tooltip = d3.select("#graph")
   .append("div")
-  .style("position", "relative")
-  .style("z-index", "10")
-  .style("visibility","hidden")
-  .style("background-color", "grey")
-  .style("padding", "10px")
-  .style("width", "200px");
+  .attr("class", "tooltip")
+  .style("visibility","hidden");
   
 
 
