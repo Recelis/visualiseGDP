@@ -1,15 +1,5 @@
-.chart{
-    font: 10px sans-serif;
-    background-color: steelblue;
-    text-align: right;
-    padding: 3px;
-    margin: 1px;
-    color: steelblue;
-    border:solid 0px steelblue;
-  }
-
   body{
-    background-image: url("background.png")
+    background-image: url("background.png");
   }
 
   h1{
@@ -19,5 +9,5 @@
   }
 
   #graph{
-    background-color:white;
+    text-align:center;
   }
