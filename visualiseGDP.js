@@ -1,4 +1,7 @@
 
+var width = 850;
+var height = 500;
+
 function getGDP(raw) {
   var gdpForGraph = raw[1]/40;
   return gdpForGraph;
@@ -15,8 +18,8 @@ function createChart(error, data) {
   var dates = data.data.map(getDates);
   var chart = d3.select("#graph")
     .append('svg')
-    .attr('height', 500)
-    .attr('width', 850)
+    .attr('height', height)
+    .attr('width', width)
     .style("background-color","white")
     .style('padding', '100px');
   var bars = chart.selectAll('rect')
@@ -36,15 +39,12 @@ function createChart(error, data) {
     })
     .on('mouseover', (d,i)=>{
       tooltip.style("visibility", "visible");
-      // console.log(d*100);
       tooltip.text("$" + parseFloat(Math.round(d*40*100)/100).toFixed(1) + "B USD " + dates[i]); // may be rounded incorrectly
       tooltip.style('left', d3.event.pageX+"px");
       tooltip.style('top',d3.event.pageY -100+ "px");
-      // d3.select(this).attr("fill", "red");
     })
     .on('mouseout', ()=>{
       tooltip.style("visibility", "hidden")
-      // d3.select(this).attr("fill", 'rgb(98, 173, 77)')
     });
 }
 
@@ -59,4 +59,6 @@ var tooltip = d3.select("#graph")
 d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json", createChart);
 
 // need to set horizontal and vertical axis
+
+// headings and labels
 
