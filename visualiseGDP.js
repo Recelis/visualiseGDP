@@ -11,17 +11,35 @@ function getDates(raw) {
   return raw[0];
 }
 
+var y = d3.scaleLinear().range([height,0]);
+var x = d3.scaleLinear().range([0,width]);
+
 function createChart(error, data) {
   if (error) throw error;
   var gdp = data.data.map(getGDP);
   console.log(gdp.length);
   var dates = data.data.map(getDates);
+  y.domain([0, d3.max(data, (d)=>{return d.value;})]);  
+  console.log(y);
+
+  // var yAxis = d3.svg.axis()
+  // .scale(y)
+  // .orient("left")
+
   var chart = d3.select("#graph")
     .append('svg')
     .attr('height', height)
     .attr('width', width)
     .style("background-color","white")
     .style('padding', '100px');
+  chart.append("g")
+    .attr("class", "y-axis")
+    .call(d3.axisLeft(y));
+  chart.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", "translate(0,"+height+")")
+    .style("z-index", 11)
+    .call(d3.axisBottom(x));
   var bars = chart.selectAll('rect')
     .data(gdp)
     .enter().append('rect')
@@ -47,6 +65,8 @@ function createChart(error, data) {
       tooltip.style("visibility", "hidden")
     });
 }
+
+
 
 var tooltip = d3.select("#graph")
   .append("div")
